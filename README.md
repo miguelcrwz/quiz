@@ -7,6 +7,7 @@ Exclusive Program for Studying Go
 <p align = "center">
   <a href = "#project"> PROJECT </a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href = "#technologies"> TECHNOLOGIES </a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href = "#run"> RUN </a> &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href = "#license"> LICENSE </a>
 </p>
 
@@ -31,6 +32,14 @@ This project was developed using the following technologies:
 - Go
 - CSV
 - Git and Github
+
+## ⚙️ <a id = "run"></a> RUN
+
+To execute the project, run the following command:
+
+```sh
+go run main.go
+```
 
 ## ⚖️ <a id = "license"></a> LICENSE
 
