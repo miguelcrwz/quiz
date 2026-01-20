@@ -1,0 +1,12 @@
+# binaries (a plain go build names it after the module: miguelcrwz)
+/quiz
+/miguelcrwz
+*.exe
+*.test
+*.out
+
+# editors and os files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
