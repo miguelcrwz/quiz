@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Questions struct {
@@ -14,7 +17,25 @@ type Questions struct {
 }
 
 type GameState struct {
+	Name      string
 	Questions []Questions
+}
+
+func (g *GameState) Init() {
+	fmt.Println("\033[35;1mWELCOME TO F1 QUIZ! ⚒︎\033[0m")
+	time.Sleep(time.Millisecond * 350)
+	fmt.Printf("\033[37;1m Enter your NAME: \033[0m")
+	reader := bufio.NewReader(os.Stdin)
+	name, err := reader.ReadString('\n')
+
+	if err != nil {
+		panic(err)
+	}
+
+	name = strings.TrimSpace(name)
+	g.Name = name
+	time.Sleep(time.Millisecond * 350)
+	fmt.Printf("\033[35;1mHello, %s! LET'S START!\033[0m\n", g.Name)
 }
 
 func (g *GameState) ProcessCSV() {
@@ -49,6 +70,7 @@ func (g *GameState) ProcessCSV() {
 func main() {
 	game := &GameState{}
 	game.ProcessCSV()
+	game.Init()
 }
 
 func toInt(s string) (int, error) {
