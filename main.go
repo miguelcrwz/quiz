@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -18,6 +19,7 @@ type Questions struct {
 
 type GameState struct {
 	Name      string
+	Points    int
 	Questions []Questions
 }
 
@@ -67,10 +69,53 @@ func (g *GameState) ProcessCSV() {
 	}
 }
 
+func (g *GameState) Run() {
+	for index, question := range g.Questions {
+		time.Sleep(time.Millisecond * 350)
+		fmt.Printf("\033[33;1m\n %d. %s\033[0m\n", index+1, question.Text)
+
+		for j, option := range question.Options {
+			fmt.Printf("[%d] %s\n", j+1, option)
+		}
+
+		fmt.Printf("\033[33;1m Enter an ALTERNATIVE: \033[0m")
+
+		var answer int
+		var err error
+
+		for {
+			time.Sleep(time.Millisecond * 350)
+			reader := bufio.NewReader(os.Stdin)
+			read, _ := reader.ReadString('\n')
+
+			answer, err = toInt(read[:len(read)-1])
+
+			if err != nil {
+				fmt.Println(err.Error())
+				fmt.Printf("\n\033[33;1m Enter an ALTERNATIVE: \033[0m")
+				continue
+			}
+
+			break
+		}
+
+		if answer == question.Answer {
+			time.Sleep(time.Millisecond * 350)
+			fmt.Print("\n\033[35;1m✔ CORRECT ANSWER\033[0m\n")
+			g.Points++
+		} else {
+			time.Sleep(time.Millisecond * 350)
+			fmt.Printf("\n\033[31;1m✘ INCORRECT ANSWER\033[0m / \033[35;1mRIGHT ANSWER: [%d] %s\033[0m\n", question.Answer, question.Options[question.Answer-1])
+		}
+	}
+}
+
 func main() {
 	game := &GameState{}
 	game.ProcessCSV()
 	game.Init()
+	time.Sleep(time.Millisecond * 350)
+	game.Run()
 }
 
 func toInt(s string) (int, error) {
@@ -78,7 +123,7 @@ func toInt(s string) (int, error) {
 	i, err := strconv.Atoi(s)
 
 	if err != nil {
-		return 0, err
+		return 0, errors.New("\n\033[31;1m✘ INVALID VALUE, PLEASE SELECT A VALID OPTION.\033[0m")
 	}
 
 	return i, nil
