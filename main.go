@@ -96,6 +96,12 @@ func (g *GameState) Run() {
 				continue
 			}
 
+			if answer < 1 || answer > len(question.Options) {
+				fmt.Println("\n\033[31;1m✘ INVALID OPTION, PLEASE SELECT A VALID OPTION.\033[0m")
+				fmt.Printf("\n\033[33;1m Enter an ALTERNATIVE: \033[0m")
+				continue
+			}
+
 			break
 		}
 
