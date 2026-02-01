@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
@@ -21,6 +22,13 @@ type GameState struct {
 	Name      string
 	Points    int
 	Questions []Questions
+}
+
+func (g *GameState) ShuffleQuestions() {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(g.Questions), func(i, j int) {
+		g.Questions[i], g.Questions[j] = g.Questions[j], g.Questions[i]
+	})
 }
 
 func (g *GameState) Init() {
@@ -119,6 +127,7 @@ func (g *GameState) Run() {
 func main() {
 	game := &GameState{}
 	game.ProcessCSV()
+	game.ShuffleQuestions()
 	game.Init()
 	time.Sleep(time.Millisecond * 350)
 	startGameTime := time.Now()
