@@ -121,7 +121,11 @@ func main() {
 	game.ProcessCSV()
 	game.Init()
 	time.Sleep(time.Millisecond * 350)
+	startGameTime := time.Now()
 	game.Run()
+	totalTime := time.Since(startGameTime)
+	time.Sleep(time.Millisecond * 350)
+	fmt.Printf("\n\033[32;1mYOU SCORED %d POINTS IN %.2f SECONDS!\033[0m", game.Points, totalTime.Seconds())
 }
 
 func toInt(s string) (int, error) {
